@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package se.crisp.tdd;
 
 import java.util.ArrayList;
@@ -42,9 +38,7 @@ public class TetrahedronViewer extends Application {
         root.getChildren().addAll(content, createButtons());
         
         stage.setTitle("TDD Tetrahedron");
-        boolean depthBuffer = true;
-        final Scene scene = new Scene(root, sideLength*2.2, sideLength*2.1, depthBuffer);
-        scene.setCamera(new PerspectiveCamera());
+        Scene scene = createScene(root);
         stage.setScene(scene);
         stage.show();
         animation.play();
@@ -90,6 +84,7 @@ public class TetrahedronViewer extends Application {
     }
     private Node createContent() {
         final Tetrahedron tetra = new Tetrahedron();
+        tetra.translateXProperty().setValue(sideLength/2);
         animation = new Timeline();
         animation.getKeyFrames().addAll(
                 new KeyFrame(Duration.ZERO,
@@ -105,6 +100,13 @@ public class TetrahedronViewer extends Application {
         animation.setCycleCount(Animation.INDEFINITE);
 
         return tetra;
+    }
+
+    private Scene createScene(StackPane root) {
+        boolean depthBuffer = true;
+        final Scene scene = new Scene(root, sideLength*2.2, sideLength*2.1, depthBuffer);
+        scene.setCamera(new PerspectiveCamera());
+        return scene;
     }
 
     class Tetrahedron extends Group {
